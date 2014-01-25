@@ -119,7 +119,15 @@ if args.initrd:
 else:
     ramdisk = '-'
 
-f.write(load + ' ${fdt_addr_r} ${prefix}${soc}-${board}${boardver}.dtb\n')
+f.write('''\
+if test -n "${fdtfile}"; then
+    set _fdt ${fdtfile};
+else
+    set _fdt ${soc}-${board}${boardver}.dtb;
+fi
+''')
+f.write(load + ' ${fdt_addr_r} ' + prefix + '${_fdt}\n')
+f.write('set _fdt\n')
 
 bootargs = ''
 if not args.no_con_ttyS0:
