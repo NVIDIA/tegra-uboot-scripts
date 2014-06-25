@@ -103,7 +103,7 @@ else:
 
 if args.type == 'net':
     f.write('dhcp\n')
-    load='tftp'
+    load='tftpboot'
     prefix=''
 else:
     load='load ${devtype} ${devnum}:${rootpart}'
