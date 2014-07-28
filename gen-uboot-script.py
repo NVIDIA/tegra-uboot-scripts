@@ -71,6 +71,9 @@ parser.add_argument('--noisy', action='store_true',
 parser.add_argument('--cmdline',
     help='Extra command-line options')
 
+parser.add_argument('--dtb-dir', dest='dtbdir', default=None,
+    help='Search directory for dtbs on target; defaults to boot directory')
+
 args = parser.parse_args()
 if args.debug: print args
 
@@ -109,6 +112,11 @@ else:
     load='load ${devtype} ${devnum}:${rootpart}'
     prefix='/boot/'
 
+if not args.dtbdir:
+    args.dtbdir = prefix
+elif not args.dtbdir.endswith('/'):
+    args.dtbdir += '/'
+
 f.write(load + ' ${kernel_addr_r} ' + prefix + 'zImage\n')
 
 if args.initrd:
@@ -126,7 +134,7 @@ else
     set _fdt ${soc}-${board}${boardver}.dtb;
 fi
 ''')
-f.write(load + ' ${fdt_addr_r} ' + prefix + '${_fdt}\n')
+f.write(load + ' ${fdt_addr_r} ' + args.dtbdir + '${_fdt}\n')
 f.write('set _fdt\n')
 
 bootargs = ''
