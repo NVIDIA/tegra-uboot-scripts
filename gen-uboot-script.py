@@ -36,6 +36,9 @@ parser.add_argument('--type', choices=['disk', 'net'], default='disk',
 parser.add_argument('-o', dest='outfile', default='boot.scr',
     help='output filename; defaults to boot.scr')
 
+parser.add_argument('--zimage', default='zImage',
+    help='zImage filename to load; defaults to "zImage"')
+
 parser.add_argument('--initrd',
     help='initrd filename to load; defaults to no initrd')
 
@@ -117,7 +120,7 @@ if not args.dtbdir:
 elif not args.dtbdir.endswith('/'):
     args.dtbdir += '/'
 
-f.write(load + ' ${kernel_addr_r} ' + prefix + 'zImage\n')
+f.write(load + ' ${kernel_addr_r} ' + prefix + args.zimage + '\n')
 
 if args.initrd:
     f.write(load + ' ${ramdisk_addr_r} ' + prefix + args.initrd + '\n')
