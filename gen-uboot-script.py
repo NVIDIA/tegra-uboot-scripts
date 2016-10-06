@@ -132,13 +132,13 @@ else:
 
 f.write('''\
 if test -n "${fdtfile}"; then
-    set _fdt ${fdtfile};
+    setenv _fdt ${fdtfile};
 else
-    set _fdt ${soc}-${board}${boardver}.dtb;
+    setenv _fdt ${soc}-${board}${boardver}.dtb;
 fi
 ''')
 f.write(load + ' ${fdt_addr_r} ' + args.dtbdir + '${_fdt}\n')
-f.write('set _fdt\n')
+f.write('setenv _fdt\n')
 
 bootargs = ''
 if not args.no_con_ttyS0:
